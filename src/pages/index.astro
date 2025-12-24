@@ -4,6 +4,7 @@ import ThemeToggle from "../components/ThemeToggle.astro";
 import { Box, Stack, Heading, Text, Button, Link } from '../components/primitives';
 import { Alert, Badge, Card } from '../components/widgets';
 import MainLayout from "../layouts/MainLayout.astro";;
+import { Accordion, Tabs, Modal } from "../widgets";
 ---
 
 <MainLayout title="NebulaWind">
@@ -45,7 +46,54 @@ import MainLayout from "../layouts/MainLayout.astro";;
         Inspired by AstroWind (attribution-only; no code/assets reused).
       </footer>
     </div>
-  </main>
+  
+<!-- === NebulaWind: phase 2.2 widgets demo === -->
+<section class="nw-section" aria-labelledby="phase22-widgets">
+  <div class="nw-container">
+    <h2 id="phase22-widgets">Widgets (Phase 2.2)</h2>
+    <p class="nw-text">Advanced patterns: Accordion, Tabs, and Modal dialog (A11y-friendly defaults).</p>
+
+    <div class="nw-grid" style="display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+      <div>
+        <h3 class="nw-heading">Accordion</h3>
+        <div style="display:grid; gap:10px;">
+          <Accordion title="What is NebulaWind?" open>
+            <p>A clean-room Astro starter with design system, content layer, local search, and quality gates.</p>
+          </Accordion>
+          <Accordion title="What comes next?">
+            <ul>
+              <li>More widgets</li>
+              <li>Docs & content patterns</li>
+              <li>Quality gates hardening</li>
+            </ul>
+          </Accordion>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="nw-heading">Tabs</h3>
+        <Tabs
+          tabs={[
+            { id: "one", label: "Overview", content: "<p>Tokens + primitives + widgets.</p>" },
+            { id: "two", label: "Quality", content: "<p>Check/Lint/Build/LHCI gates.</p>" },
+            { id: "three", label: "Search", content: "<p>Local search via Pagefind.</p>" },
+          ]}
+         />
+      </div>
+
+      <div>
+        <h3 class="nw-heading">Modal</h3>
+        <Modal title="NebulaWind Dialog" triggerLabel="Open dialog" size="sm">
+          <p>This modal uses the native <code>&lt;dialog&gt;</code> element with safe defaults.</p>
+          <p>You can close it via backdrop click or the close button.</p>
+        </Modal>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- === end phase 2.2 === -->
+
+</main>
 </BaseLayout>
 
 <!-- nebula:primitives-demo:start -->

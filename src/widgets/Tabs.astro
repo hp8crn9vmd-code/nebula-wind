@@ -1,0 +1,90 @@
+---
+export interface Tab {
+  id: string;
+  label: string;
+  content: string;
+}
+export interface Props {
+  id?: string;
+  tabs: Tab[];
+  activeId?: string;
+}
+const { id, tabs, activeId } = Astro.props;
+const rid = id ?? `tabs-${Math.random().toString(16).slice(2)}`;
+const initial = activeId && tabs.some(t => t.id === activeId) ? activeId : (tabs[0]?.id ?? "");
+---
+
+<div class="nw-tabs" data-tabs-root id={rid}>
+  <div class="nw-tabs__list" role="tablist" aria-label="Tabs">
+    {tabs.map((t) => (
+      <button
+        class={`nw-tabs__tab ${t.id === initial ? "is-active" : ""}`}
+        type="button"
+        role="tab"
+        aria-selected={t.id === initial ? "true" : "false"}
+        aria-controls={`${rid}-panel-${t.id}`}
+        id={`${rid}-tab-${t.id}`}
+        data-tab={t.id}
+      >
+        {t.label}
+      </button>
+    ))}
+  </div>
+
+  {tabs.map((t) => (
+    <div
+      class={`nw-tabs__panel ${t.id === initial ? "is-active" : ""}`}
+      role="tabpanel"
+      tabindex={0}
+      id={`${rid}-panel-${t.id}`}
+      aria-labelledby={`${rid}-tab-${t.id}`}
+      data-panel={t.id}
+    >
+      <Fragment set:html={t.content} />
+    </div>
+  ))}
+
+  <script is:inline>
+    (function () {
+      const root = document.currentScript && document.currentScript.parentElement;
+      if (!root) return;
+
+      const tabs = Array.from(root.querySelectorAll('[role="tab"]'));
+      const panels = Array.from(root.querySelectorAll('[role="tabpanel"]'));
+      const activate = (id) => {
+        tabs.forEach((btn) => {
+          const on = btn.getAttribute("data-tab") === id;
+          btn.classList.toggle("is-active", on);
+          btn.setAttribute("aria-selected", on ? "true" : "false");
+          btn.setAttribute("tabindex", on ? "0" : "-1");
+        });
+        panels.forEach((p) => p.classList.toggle("is-active", p.getAttribute("data-panel") === id));
+      };
+
+      root.addEventListener("click", (e) => {
+        const btn = e.target && e.target.closest && e.target.closest('[role="tab"]');
+        if (!btn) return;
+        activate(btn.getAttribute("data-tab"));
+        btn.focus();
+      });
+
+      root.addEventListener("keydown", (e) => {
+        const cur = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute("role") === "tab"
+          ? document.activeElement
+          : null;
+        if (!cur) return;
+
+        const i = tabs.indexOf(cur);
+        if (i < 0) return;
+
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+          e.preventDefault();
+          const next = e.key === "ArrowRight" ? (i + 1) % tabs.length : (i - 1 + tabs.length) % tabs.length;
+          const id = tabs[next].getAttribute("data-tab");
+          activate(id);
+          tabs[next].focus();
+        }
+      });
+    })();
+  </script>
+</div>

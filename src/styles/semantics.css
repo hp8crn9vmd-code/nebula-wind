@@ -1,56 +1,22 @@
-/* Semantic Design Tokens */
-/* These map raw tokens -> meaning */
-
 :root {
-  /* Backgrounds */
-  --bg-page: var(--color-neutral-0);
-  --bg-surface: var(--color-neutral-50);
-  --bg-muted: var(--color-neutral-100);
-
-  /* Text */
-  --text-primary: var(--color-neutral-900);
-  --text-secondary: var(--color-neutral-600);
-  --text-muted: var(--color-neutral-500);
-
-  /* Borders */
-  --border-default: var(--color-neutral-200);
-  --border-muted: var(--color-neutral-100);
-
-  /* Brand */
-  --brand-primary: var(--color-brand-600);
-  --brand-primary-hover: var(--color-brand-700);
-
-  /* Radius */
-  --radius-sm: var(--radius-2);
-  --radius-md: var(--radius-3);
-  --radius-lg: var(--radius-4);
-
-  /* Spacing */
-  --space-xs: var(--space-2);
-  --space-sm: var(--space-3);
-  --space-md: var(--space-4);
-  --space-lg: var(--space-6);
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --muted: #64748b;
+  --card: #f8fafc;
+  --border: #e5e7eb;
+  --accent: #2563eb;
 }
 
-
-/* NebulaWind Theme Overrides */
-:root[data-theme="light"] {
-  /* keep defaults as-is (light) */
+html[data-theme="dark"] {
+  --bg: #0b1220;
+  --fg: #e5e7eb;
+  --muted: #94a3b8;
+  --card: #0f172a;
+  --border: #1f2937;
+  --accent: #60a5fa;
 }
 
-:root[data-theme="dark"] {
-  /* Minimal set: flip backgrounds/foregrounds used by components/widgets */
-  --color-bg: #0b0f14;
-  --color-fg: #e6edf3;
-  --color-muted: #9da7b3;
-
-  --color-surface: #0f1620;
-  --color-border: rgba(230, 237, 243, 0.14);
-
-  --color-primary: #7aa2ff;
-  --color-primary-contrast: #0b0f14;
-
-  --color-success: #2bd576;
-  --color-warning: #ffd166;
-  --color-danger: #ff6b6b;
+body {
+  background: var(--bg);
+  color: var(--fg);
 }

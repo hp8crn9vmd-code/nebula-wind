@@ -1,0 +1,56 @@
+---
+export interface Props {
+  id?: string;
+  title: string;
+  triggerLabel?: string;
+  size?: "sm" | "md" | "lg";
+}
+const { id, title, triggerLabel = "Open dialog", size = "md" } = Astro.props;
+const rid = id ?? `dlg-${Math.random().toString(16).slice(2)}`;
+---
+
+<div class={`nw-dialog nw-dialog--${size}`} data-dialog-root>
+  <button class="nw-button" type="button" data-open aria-controls={rid} aria-haspopup="dialog">
+    {triggerLabel}
+  </button>
+
+  <dialog id={rid} class="nw-dialog__dialog" aria-label={title}>
+    <form method="dialog" class="nw-dialog__form">
+      <header class="nw-dialog__header">
+        <h2 class="nw-dialog__title">{title}</h2>
+        <button class="nw-button nw-button--ghost" value="cancel" aria-label="Close dialog">✕</button>
+      </header>
+
+      <div class="nw-dialog__body">
+        <slot />
+      </div>
+
+      <footer class="nw-dialog__footer">
+        <button class="nw-button nw-button--ghost" value="cancel">Cancel</button>
+        <button class="nw-button" value="ok">OK</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script is:inline>
+    (function () {
+      const root = document.currentScript && document.currentScript.parentElement;
+      if (!root) return;
+      const btn = root.querySelector("[data-open]");
+      const dlg = root.querySelector("dialog");
+      if (!btn || !dlg) return;
+
+      btn.addEventListener("click", () => {
+        if (typeof dlg.showModal === "function") dlg.showModal();
+        else dlg.setAttribute("open", "");
+      });
+
+      dlg.addEventListener("click", (e) => {
+        const r = dlg.getBoundingClientRect();
+        const inDialog =
+          e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+        if (!inDialog) dlg.close();
+      });
+    })();
+  </script>
+</div>

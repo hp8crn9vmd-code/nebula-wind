@@ -162,3 +162,32 @@
   justify-content: center;
   gap: 8px;
 }
+
+/* --- NebulaWind Widgets: Accordion/Tabs/Dialog (phase 2.2) --- */
+.nw-accordion { border: 1px solid var(--nw-border); border-radius: var(--nw-radius-md); background: var(--nw-surface); }
+.nw-accordion.is-subtle { background: transparent; }
+.nw-accordion__details { padding: 0; }
+.nw-accordion__summary { cursor: pointer; list-style: none; display:flex; align-items:center; justify-content:space-between; padding: 12px 14px; gap: 12px; }
+.nw-accordion__summary::-webkit-details-marker { display:none; }
+.nw-accordion__title { font-weight: 600; }
+.nw-accordion__chev { opacity: .7; transition: transform .18s ease; }
+details[open] .nw-accordion__chev { transform: rotate(180deg); }
+.nw-accordion__panel { padding: 0 14px 14px; color: var(--nw-text); }
+
+.nw-tabs { border: 1px solid var(--nw-border); border-radius: var(--nw-radius-md); background: var(--nw-surface); overflow: hidden; }
+.nw-tabs__list { display:flex; gap: 6px; padding: 10px; border-bottom: 1px solid var(--nw-border); flex-wrap: wrap; }
+.nw-tabs__tab { appearance:none; border: 1px solid var(--nw-border); background: transparent; padding: 8px 10px; border-radius: var(--nw-radius-sm); cursor: pointer; min-height: 44px; }
+.nw-tabs__tab.is-active { background: var(--nw-accent-weak); border-color: var(--nw-accent); }
+.nw-tabs__panel { display:none; padding: 14px; }
+.nw-tabs__panel.is-active { display:block; }
+
+.nw-dialog__dialog { border: 1px solid var(--nw-border); border-radius: var(--nw-radius-md); padding: 0; background: var(--nw-surface); color: var(--nw-text); width: min(720px, calc(100% - 24px)); }
+.nw-dialog--sm .nw-dialog__dialog { width: min(420px, calc(100% - 24px)); }
+.nw-dialog--lg .nw-dialog__dialog { width: min(920px, calc(100% - 24px)); }
+.nw-dialog__form { padding: 0; margin: 0; }
+.nw-dialog__header { display:flex; align-items:center; justify-content:space-between; gap: 12px; padding: 14px; border-bottom: 1px solid var(--nw-border); }
+.nw-dialog__title { margin: 0; font-size: 1rem; }
+.nw-dialog__body { padding: 14px; }
+.nw-dialog__footer { display:flex; justify-content:flex-end; gap: 10px; padding: 14px; border-top: 1px solid var(--nw-border); }
+.nw-dialog__dialog::backdrop { background: rgba(0,0,0,.45); }
+/* --- end phase 2.2 --- */

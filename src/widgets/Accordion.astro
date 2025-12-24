@@ -1,0 +1,22 @@
+---
+export interface Props {
+  id?: string;
+  title: string;
+  open?: boolean;
+  subtle?: boolean;
+}
+const { id, title, open = false, subtle = false } = Astro.props;
+const rid = id ?? `acc-${Math.random().toString(16).slice(2)}`;
+---
+
+<div class={`nw-accordion ${subtle ? "is-subtle" : ""}`}>
+  <details class="nw-accordion__details" open={open}>
+    <summary class="nw-accordion__summary" id={`${rid}-summary`}>
+      <span class="nw-accordion__title">{title}</span>
+      <span class="nw-accordion__chev" aria-hidden="true">▾</span>
+    </summary>
+    <div class="nw-accordion__panel" role="region" aria-labelledby={`${rid}-summary`}>
+      <slot />
+    </div>
+  </details>
+</div>

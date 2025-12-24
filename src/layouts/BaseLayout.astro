@@ -67,7 +67,41 @@ const pageDescription =
     <meta name="twitter:description" content={description} />
 
     <title>{pageTitle}</title>
-  </head>
+  <script is:inline>
+(function () {
+  const KEY = "nw-theme";
+  const root = document.documentElement;
+
+  function getSystem() {
+    return window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  function apply(theme) {
+    root.dataset.theme = theme;
+  }
+
+  try {
+    const saved = localStorage.getItem(KEY);
+    if (saved === "light" || saved === "dark") {
+      apply(saved);
+    } else {
+      apply(getSystem());
+    }
+  } catch {
+    apply(getSystem());
+  }
+
+  window.__NW_SET_THEME__ = function (t) {
+    if (t !== "light" && t !== "dark") return;
+    apply(t);
+    try { localStorage.setItem(KEY, t); } catch { /* noop */ }
+  };
+})();
+</script>
+</head>
   <body>
     <header class="mx-auto max-w-5xl px-4 py-6 flex items-center justify-between gap-4">
       <a class="font-semibold tracking-tight" href="/" aria-label="NebulaWind Home">NebulaWind</a>
