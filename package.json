@@ -16,7 +16,7 @@
     "ci:all": "npm run check && npm run lint && npm run build && npm run lhci:autorun",
     "lhci:kaggle": "CHROME_WRAPPER_DEBUG=0 CHROME_PATH=./scripts/chrome-wrapper.sh LHCI_CHROME_PATH=./scripts/chrome-wrapper.sh LIGHTHOUSE_CHROMIUM_PATH=./scripts/chrome-wrapper.sh npx lhci autorun --config=./lighthouserc.cjs --upload.target=temporary-public-storage --collect.numberOfRuns=1",
     "gates": "bash ./scripts/run-gates.sh",
-    "lhci:ci": "bash ./scripts/run-lhci.sh",
+    "lhci:ci": "npx lhci autorun --config=./lighthouserc.cjs --upload.target=temporary-public-storage --collect.numberOfRuns=1",
     "ci": "npm run check && npm run lint && npm run build && npm run lhci:ci"
   },
   "dependencies": {

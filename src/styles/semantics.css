@@ -31,3 +31,26 @@
   --space-md: var(--space-4);
   --space-lg: var(--space-6);
 }
+
+
+/* NebulaWind Theme Overrides */
+:root[data-theme="light"] {
+  /* keep defaults as-is (light) */
+}
+
+:root[data-theme="dark"] {
+  /* Minimal set: flip backgrounds/foregrounds used by components/widgets */
+  --color-bg: #0b0f14;
+  --color-fg: #e6edf3;
+  --color-muted: #9da7b3;
+
+  --color-surface: #0f1620;
+  --color-border: rgba(230, 237, 243, 0.14);
+
+  --color-primary: #7aa2ff;
+  --color-primary-contrast: #0b0f14;
+
+  --color-success: #2bd576;
+  --color-warning: #ffd166;
+  --color-danger: #ff6b6b;
+}

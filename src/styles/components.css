@@ -150,3 +150,15 @@
 .nw-card__body   { padding: 0 1rem 1rem; }
 .nw-card__title  { margin: 0; font-weight: 700; }
 .nw-card__desc   { margin: .25rem 0 0; opacity: .85; }
+
+
+/* a11y: touch targets */
+.theme-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

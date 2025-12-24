@@ -1,31 +1,86 @@
-<button id="nw-theme-toggle"
-  class="px-3 py-2 rounded-nw border border-white/10 bg-white/5 hover:bg-white/10 transition"
+---
+/**
+ * ThemeToggle
+ * - No-param functions only
+ * - No function calls with arguments (avoids ts(2554))
+ * - No implicit-any params (avoids ts(7006))
+ */
+const label = "Toggle theme";
+---
+
+<button
+  id="nw-theme-toggle"
   type="button"
-  aria-label="Toggle theme">
-  Toggle theme
+  class="button theme-toggle"
+  aria-label={label}
+  title={label}
+>
+  <span class="sr-only">Toggle theme</span>
+
+  <span aria-hidden="true">🌓</span>
 </button>
 
-  <script>
-    const btn = document.getElementById('nw-theme-toggle') as HTMLButtonElement | null;
-    const root = document.documentElement;
+<script>
+  const KEY = "nw:theme";
+  const root = document.documentElement;
 
-    type Theme = 'dark' | 'light';
-
-    function getTheme(): Theme {
-      const stored = localStorage.getItem('nw-theme');
-      const fromDom = (root.dataset.theme as Theme | undefined) ?? 'dark';
-      if (stored === 'light' || stored === 'dark') return stored;
-      return fromDom;
+  function getStored() {
+    try {
+      const v = localStorage.getItem(KEY);
+      return v === "dark" ? "dark" : (v === "light" ? "light" : null);
+    } catch {
+      return null;
     }
+  }
 
-    function setTheme(theme: Theme): void {
-      root.dataset.theme = theme;
-      localStorage.setItem('nw-theme', theme);
+  function getPreferred() {
+    try {
+      return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ? "dark"
+        : "light";
+    } catch {
+      return "light";
     }
+  }
 
-    btn?.addEventListener('click', () => {
-      const next: Theme = getTheme() === 'dark' ? 'light' : 'dark';
-      setTheme(next);
-    });
-  </script>
+  function getCurrentFromDom() {
+    const v = root.dataset.theme;
+    return v === "dark" ? "dark" : (v === "light" ? "light" : null);
+  }
 
+  function applyTheme() {
+    const dom = getCurrentFromDom();
+    const stored = getStored();
+    const next = dom || stored || getPreferred();
+
+    root.dataset.theme = next;
+    root.classList.toggle("theme-dark", next === "dark");
+  }
+
+  function flipTheme() {
+    const dom = getCurrentFromDom();
+    const stored = getStored();
+    const cur = dom || stored || getPreferred();
+    const next = (cur === "dark") ? "light" : "dark";
+
+    root.dataset.theme = next;
+    root.classList.toggle("theme-dark", next === "dark");
+
+    try { localStorage.setItem(KEY, next); } catch { /* noop */ }
+  }
+
+  applyTheme();
+
+  const btn = document.getElementById("nw-theme-toggle");
+  if (btn) btn.addEventListener("click", flipTheme);
+
+  try {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq && mq.addEventListener) {
+      mq.addEventListener("change", function () {
+        // إذا المستخدم لم يثبت theme في التخزين، اتبع النظام
+        if (!getStored()) applyTheme();
+      });
+    }
+  } catch { /* noop */ }
+</script>
