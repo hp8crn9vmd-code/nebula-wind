@@ -1,0 +1,36 @@
+:root {
+  /* === NebulaWind Design Tokens (RGB triplets) === */
+  --nw-bg: 11 15 25;        /* #0b0f19 */
+  --nw-surface: 18 24 38;   /* #121826 */
+  --nw-fg: 232 238 252;     /* #e8eefc */
+  --nw-muted: 166 177 211;  /* #a6b1d3 */
+  --nw-border: 255 255 255; /* used with alpha */
+  --nw-accent: 122 162 247; /* #7aa2f7 */
+  --nw-accent-2: 158 206 106; /* #9ece6a */
+
+  /* Radius */
+  --nw-radius-sm: 10px;
+  --nw-radius-md: 14px;
+  --nw-radius-lg: 18px;
+
+  /* Spacing scale */
+  --nw-s1: 4px;
+  --nw-s2: 8px;
+  --nw-s3: 12px;
+  --nw-s4: 16px;
+  --nw-s5: 24px;
+  --nw-s6: 32px;
+  --nw-s7: 48px;
+
+  /* Typography */
+  --nw-font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+}
+
+[data-theme="light"] {
+  --nw-bg: 255 255 255;
+  --nw-surface: 243 244 246; /* #f3f4f6 */
+  --nw-fg: 17 24 39;
+  --nw-muted: 75 85 99;
+  --nw-accent: 37 99 235;
+  --nw-accent-2: 22 163 74;
+}

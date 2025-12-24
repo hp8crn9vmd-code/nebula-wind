@@ -1,0 +1,23 @@
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: rgb(var(--nw-bg));
+  color: rgb(var(--nw-fg));
+  font-family: var(--nw-font-sans);
+}
+
+a { color: rgb(var(--nw-accent)); }
+
+/* Minimal "prose" styling (no plugin) */
+.prose :where(h2) { margin-top: 2rem; margin-bottom: .75rem; font-size: 1.5rem; }
+.prose :where(p) { margin-top: .75rem; margin-bottom: .75rem; line-height: 1.75; }
+.prose :where(ul) { margin: .75rem 0; padding-left: 1.25rem; }
+[dir="rtl"] .prose :where(ul) { padding-left: 0; padding-right: 1.25rem; }
+.prose :where(li) { margin: .25rem 0; }
+.prose :where(a) { text-decoration: underline; }

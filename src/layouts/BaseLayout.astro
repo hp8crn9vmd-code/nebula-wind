@@ -1,0 +1,30 @@
+---
+const { title = "NebulaWind" } = Astro.props;
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content="NebulaWind — clean-room production starter." />
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('nw-theme');
+          if (saved) document.documentElement.dataset.theme = saved;
+
+          const savedDir = localStorage.getItem('nw-dir');
+          if (savedDir) document.documentElement.dir = savedDir;
+        } catch {
+          // ignore
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

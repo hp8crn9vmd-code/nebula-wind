@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+---
+
+<BaseLayout title="NebulaWind">
+  <main class="min-h-screen">
+    <div class="max-w-5xl mx-auto px-5 py-16">
+      <div class="flex items-center justify-between gap-4">
+        <h1 class="text-4xl font-semibold tracking-tight">NebulaWind</h1>
+        <ThemeToggle />
+      </div>
+
+      <p class="mt-4 text-lg text-white/80">
+        Clean-room starter built from scratch. Next steps: content layer, docs, local search, and full quality gates.
+      </p>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-2">
+        <div class="p-5 rounded-nw border border-white/10 bg-white/5">
+          <h2 class="text-xl font-semibold">Design System</h2>
+          <p class="mt-2 text-white/75">Tokens + theming as first-class citizens.</p>
+        </div>
+        <div class="p-5 rounded-nw border border-white/10 bg-white/5">
+          <h2 class="text-xl font-semibold">Production Quality</h2>
+          <p class="mt-2 text-white/75">Lint, typecheck, tests, e2e, Lighthouse CI (coming).</p>
+        </div>
+      </div>
+
+      <div class="mt-8">
+  <a class="inline-flex items-center gap-2 px-4 py-2 rounded-nw border border-white/10 bg-white/5 hover:bg-white/10 transition" href="/blog/">
+    Visit Blog →
+  </a>
+  <a class="ml-3 inline-flex items-center gap-2 px-4 py-2 rounded-nw border border-white/10 bg-white/5 hover:bg-white/10 transition" href="/search/">
+    Search →
+  </a>
+</div>
+
+<footer class="mt-12 text-sm text-white/60">
+        Inspired by AstroWind (attribution-only; no code/assets reused).
+      </footer>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+import DirToggle from "../../components/DirToggle.astro";
+import FeatureCard from "../../components/FeatureCard.astro";
+import CTA from "../../components/CTA.astro";
+import FAQ from "../../components/FAQ.astro";
+---
+
+<BaseLayout title="Component Library — NebulaWind">
+  <main class="min-h-screen">
+    <div class="max-w-5xl mx-auto px-5 py-16">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 class="text-4xl font-semibold tracking-tight">Component Library</h1>
+          <p class="mt-2 text-white/70">A growing widget set, built clean-room from scratch.</p>
+        </div>
+        <div class="flex gap-3">
+          <ThemeToggle />
+          <DirToggle />
+        </div>
+      </div>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-semibold">Feature Cards</h2>
+        <div class="mt-4 grid gap-4 md:grid-cols-3">
+          <FeatureCard title="Tokens + Themes" desc="Design tokens are first-class." icon="🎛️" />
+          <FeatureCard title="Type-safe Content" desc="Schemas via Content Collections." icon="🧩" />
+          <FeatureCard title="Local Search" desc="Pagefind offline indexing." icon="🔎" />
+        </div>
+      </section>
+
+      <CTA title="Want docs next?" subtitle="Next step will add Starlight docs or a docs layer." href="/docs/" />
+
+      <FAQ items={[
+        { q: "Is this clean-room?", a: "Yes. No AstroWind code or assets are reused." },
+        { q: "Does it support RTL?", a: "Foundation is here; full RTL design pass comes next." },
+        { q: "Search?", a: "Pagefind is integrated and works offline after build." }
+      ]} />
+    </div>
+  </main>
+</BaseLayout>

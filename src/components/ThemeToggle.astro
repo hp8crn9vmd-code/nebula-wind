@@ -1,0 +1,31 @@
+<button id="nw-theme-toggle"
+  class="px-3 py-2 rounded-nw border border-white/10 bg-white/5 hover:bg-white/10 transition"
+  type="button"
+  aria-label="Toggle theme">
+  Toggle theme
+</button>
+
+  <script>
+    const btn = document.getElementById('nw-theme-toggle') as HTMLButtonElement | null;
+    const root = document.documentElement;
+
+    type Theme = 'dark' | 'light';
+
+    function getTheme(): Theme {
+      const stored = localStorage.getItem('nw-theme');
+      const fromDom = (root.dataset.theme as Theme | undefined) ?? 'dark';
+      if (stored === 'light' || stored === 'dark') return stored;
+      return fromDom;
+    }
+
+    function setTheme(theme: Theme): void {
+      root.dataset.theme = theme;
+      localStorage.setItem('nw-theme', theme);
+    }
+
+    btn?.addEventListener('click', () => {
+      const next: Theme = getTheme() === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+    });
+  </script>
+
