@@ -1,0 +1,23 @@
+---
+export type TextSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+export type TextProps = {
+  as?: 'p' | 'span' | 'div';
+  size?: TextSize;
+  muted?: boolean;
+  class?: string;
+};
+
+const {
+  as = 'p',
+  size = 'md',
+  muted = false,
+  class: className = '',
+} = Astro.props as TextProps;
+
+const classes = ['text', size, muted ? 'muted' : '', className].filter(Boolean).join(' ');
+---
+
+{as === 'p' && <p class={classes}><slot /></p>}
+{as === 'span' && <span class={classes}><slot /></span>}
+{as === 'div' && <div class={classes}><slot /></div>}

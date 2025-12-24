@@ -1,7 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
+import { Box, Stack, Heading, Text, Button, Link } from '../components/primitives';
+import { Alert, Badge, Card } from '../components/widgets';
 ---
+
+
 
 <BaseLayout
   title="NebulaWind"
@@ -43,3 +47,40 @@ import ThemeToggle from "../components/ThemeToggle.astro";
     </div>
   </main>
 </BaseLayout>
+
+<!-- nebula:primitives-demo:start -->
+<section style="margin-top: 2rem;">
+  <Box class="box" style="padding: 1rem; border-radius: var(--radius-md, 12px); border: 1px solid color-mix(in srgb, var(--color-fg, #111) 12%, transparent);">
+    <Stack gap="md">
+      <Heading level=2>NebulaWind Design System</Heading>
+
+      <Text muted>
+        This section is a live demo wired in Kaggle. It uses primitives (Box/Stack) and components (Text/Heading/Button/Link).
+      </Text>
+
+      <Stack direction="row" gap="sm" wrap>
+        <Button variant="primary" href="/docs/">Open Docs</Button>
+        <Button variant="secondary" href="/blog/">View Blog</Button>
+        <Button variant="ghost" href="/library/">Library</Button>
+        <Button variant="danger" disabled ariaLabel="Disabled example">Disabled</Button>
+      </Stack>
+
+      <Text size="sm">
+        Quick links: <Link href="/search/">Search</Link> · <Link href="/rss.xml" external>RSS</Link>
+      </Text>
+    </Stack>
+  </Box>
+</section>
+<Card title="Widgets" description="Alert / Badge / Card">
+  <Stack gap="sm">
+    <Alert variant="info"><Text size="sm">Info alert example.</Text></Alert>
+    <Stack direction="row" gap="sm" wrap>
+      <Badge variant="accent">accent</Badge>
+      <Badge variant="success">success</Badge>
+      <Badge variant="warning">warning</Badge>
+      <Badge variant="danger">danger</Badge>
+    </Stack>
+  </Stack>
+</Card>
+<!-- nebula:primitives-demo:end -->
+

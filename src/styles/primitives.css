@@ -1,0 +1,32 @@
+/* Primitives: Box + Stack
+   - Only uses CSS variables wired from tokens/semantics/theme.
+   - Components set *variables* (not raw styles), keeping styling consistent and auditable.
+*/
+
+.box {
+  display: block;
+  background: var(--box-bg, transparent);
+  color: var(--box-fg, inherit);
+
+  padding: var(--box-p, 0);
+  padding-inline: var(--box-px, unset);
+  padding-block: var(--box-py, unset);
+
+  margin: var(--box-m, 0);
+  margin-inline: var(--box-mx, unset);
+  margin-block: var(--box-my, unset);
+
+  border-radius: var(--box-r, 0);
+  border: var(--box-b, none);
+}
+
+.stack {
+  display: flex;
+  flex-direction: var(--stack-dir, column);
+  gap: var(--stack-gap, 0);
+
+  align-items: var(--stack-align, stretch);
+  justify-content: var(--stack-justify, flex-start);
+
+  flex-wrap: var(--stack-wrap, nowrap);
+}

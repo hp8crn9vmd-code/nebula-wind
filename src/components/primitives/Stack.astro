@@ -1,0 +1,66 @@
+---
+type HTMLTag =
+  | 'div' | 'section' | 'main' | 'article' | 'nav'
+  | 'header' | 'footer' | 'aside'
+  | 'ul' | 'ol' | 'li' | 'a';
+
+type HTMLAttrs = Record<string, unknown>;
+
+export type StackProps = HTMLAttrs & {
+  as?: HTMLTag;
+  class?: string;
+  style?: string;
+  gap?: string;
+  direction?: 'row' | 'column';
+  align?: string;
+  justify?: string;
+  wrap?: 'wrap' | 'nowrap';
+};
+
+const {
+  as = 'div',
+  class: className = '',
+  style = '',
+  gap,
+  direction = 'column',
+  align,
+  justify,
+  wrap,
+  ...rest
+} = (Astro.props as StackProps);
+
+const stackStyle = [
+  `--stack-gap:${gap ?? 'var(--space-3)'}`,
+  `--stack-direction:${direction}`,
+  align ? `--stack-align:${align}` : '',
+  justify ? `--stack-justify:${justify}` : '',
+  wrap ? `--stack-wrap:${wrap}` : '',
+  style
+].filter(Boolean).join(';');
+---
+
+{as === 'section' ? (
+  <section class={`stack ${className}`} style={stackStyle} {...rest}><slot /></section>
+) : as === 'main' ? (
+  <main class={`stack ${className}`} style={stackStyle} {...rest}><slot /></main>
+) : as === 'article' ? (
+  <article class={`stack ${className}`} style={stackStyle} {...rest}><slot /></article>
+) : as === 'nav' ? (
+  <nav class={`stack ${className}`} style={stackStyle} {...rest}><slot /></nav>
+) : as === 'header' ? (
+  <header class={`stack ${className}`} style={stackStyle} {...rest}><slot /></header>
+) : as === 'footer' ? (
+  <footer class={`stack ${className}`} style={stackStyle} {...rest}><slot /></footer>
+) : as === 'aside' ? (
+  <aside class={`stack ${className}`} style={stackStyle} {...rest}><slot /></aside>
+) : as === 'ul' ? (
+  <ul class={`stack ${className}`} style={stackStyle} {...rest}><slot /></ul>
+) : as === 'ol' ? (
+  <ol class={`stack ${className}`} style={stackStyle} {...rest}><slot /></ol>
+) : as === 'li' ? (
+  <li class={`stack ${className}`} style={stackStyle} {...rest}><slot /></li>
+) : as === 'a' ? (
+  <a class={`stack ${className}`} style={stackStyle} {...rest}><slot /></a>
+) : (
+  <div class={`stack ${className}`} style={stackStyle} {...rest}><slot /></div>
+)}

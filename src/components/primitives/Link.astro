@@ -1,0 +1,23 @@
+---
+export type LinkProps = {
+  href: string;
+  external?: boolean;
+  class?: string;
+  ariaLabel?: string;
+};
+
+const {
+  href,
+  external = false,
+  class: className = '',
+  ariaLabel,
+} = Astro.props as LinkProps;
+
+const rel = external ? 'noopener noreferrer' : undefined;
+const target = external ? '_blank' : undefined;
+const cls = ['link', className].filter(Boolean).join(' ');
+---
+
+<a class={cls} href={href} rel={rel} target={target} aria-label={ariaLabel}>
+  <slot />
+</a>

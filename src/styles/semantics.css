@@ -1,0 +1,33 @@
+/* Semantic Design Tokens */
+/* These map raw tokens -> meaning */
+
+:root {
+  /* Backgrounds */
+  --bg-page: var(--color-neutral-0);
+  --bg-surface: var(--color-neutral-50);
+  --bg-muted: var(--color-neutral-100);
+
+  /* Text */
+  --text-primary: var(--color-neutral-900);
+  --text-secondary: var(--color-neutral-600);
+  --text-muted: var(--color-neutral-500);
+
+  /* Borders */
+  --border-default: var(--color-neutral-200);
+  --border-muted: var(--color-neutral-100);
+
+  /* Brand */
+  --brand-primary: var(--color-brand-600);
+  --brand-primary-hover: var(--color-brand-700);
+
+  /* Radius */
+  --radius-sm: var(--radius-2);
+  --radius-md: var(--radius-3);
+  --radius-lg: var(--radius-4);
+
+  /* Spacing */
+  --space-xs: var(--space-2);
+  --space-sm: var(--space-3);
+  --space-md: var(--space-4);
+  --space-lg: var(--space-6);
+}

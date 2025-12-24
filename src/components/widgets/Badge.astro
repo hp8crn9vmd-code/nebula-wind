@@ -1,0 +1,15 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+export type BadgeVariant = "neutral" | "accent" | "success" | "warning" | "danger";
+
+export interface BadgeProps extends HTMLAttributes<"span"> {
+  variant?: BadgeVariant;
+}
+
+const { variant = "neutral", class: className = "", ...rest } = Astro.props;
+---
+
+<span class={`nw-badge ${className}`} data-variant={variant} {...rest}>
+  <slot />
+</span>

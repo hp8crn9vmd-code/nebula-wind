@@ -1,0 +1,15 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+export type AlertVariant = "info" | "success" | "warning" | "danger";
+
+export interface AlertProps extends HTMLAttributes<"div"> {
+  variant?: AlertVariant;
+}
+
+const { variant = "info", class: className = "", ...rest } = Astro.props;
+---
+
+<div class={`nw-alert ${className}`} data-variant={variant} role="status" {...rest}>
+  <slot />
+</div>

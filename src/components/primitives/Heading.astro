@@ -1,0 +1,18 @@
+---
+export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
+export type HeadingProps = {
+  level?: HeadingLevel;
+  class?: string;
+};
+
+const { level = 2, class: className = '' } = Astro.props as HeadingProps;
+const cls = ['heading', `h${level}`, className].filter(Boolean).join(' ');
+---
+
+{level === 1 && <h1 class={cls}><slot /></h1>}
+{level === 2 && <h2 class={cls}><slot /></h2>}
+{level === 3 && <h3 class={cls}><slot /></h3>}
+{level === 4 && <h4 class={cls}><slot /></h4>}
+{level === 5 && <h5 class={cls}><slot /></h5>}
+{level === 6 && <h6 class={cls}><slot /></h6>}

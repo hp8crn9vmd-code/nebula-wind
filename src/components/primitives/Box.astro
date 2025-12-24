@@ -1,0 +1,47 @@
+---
+type HTMLTag =
+  | 'div' | 'section' | 'main' | 'article' | 'nav'
+  | 'header' | 'footer' | 'aside'
+  | 'ul' | 'ol' | 'li' | 'a';
+
+type HTMLAttrs = Record<string, unknown>;
+
+export type BoxProps = HTMLAttrs & {
+  as?: HTMLTag;
+  class?: string;
+  style?: string;
+};
+
+const {
+  as = 'div',
+  class: className = '',
+  style = '',
+  ...rest
+} = (Astro.props as BoxProps);
+---
+
+{as === 'section' ? (
+  <section class={`box ${className}`} style={style} {...rest}><slot /></section>
+) : as === 'main' ? (
+  <main class={`box ${className}`} style={style} {...rest}><slot /></main>
+) : as === 'article' ? (
+  <article class={`box ${className}`} style={style} {...rest}><slot /></article>
+) : as === 'nav' ? (
+  <nav class={`box ${className}`} style={style} {...rest}><slot /></nav>
+) : as === 'header' ? (
+  <header class={`box ${className}`} style={style} {...rest}><slot /></header>
+) : as === 'footer' ? (
+  <footer class={`box ${className}`} style={style} {...rest}><slot /></footer>
+) : as === 'aside' ? (
+  <aside class={`box ${className}`} style={style} {...rest}><slot /></aside>
+) : as === 'ul' ? (
+  <ul class={`box ${className}`} style={style} {...rest}><slot /></ul>
+) : as === 'ol' ? (
+  <ol class={`box ${className}`} style={style} {...rest}><slot /></ol>
+) : as === 'li' ? (
+  <li class={`box ${className}`} style={style} {...rest}><slot /></li>
+) : as === 'a' ? (
+  <a class={`box ${className}`} style={style} {...rest}><slot /></a>
+) : (
+  <div class={`box ${className}`} style={style} {...rest}><slot /></div>
+)}

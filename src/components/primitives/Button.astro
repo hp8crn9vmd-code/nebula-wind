@@ -1,0 +1,35 @@
+---
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+
+export type ButtonProps = {
+  href?: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  disabled?: boolean;
+  ariaLabel?: string;
+  class?: string;
+};
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  disabled = false,
+  ariaLabel,
+  class: className = '',
+} = Astro.props as ButtonProps;
+
+const cls = ['btn', variant, size, className].filter(Boolean).join(' ');
+const ariaDisabled = disabled ? 'true' : undefined;
+---
+
+{href ? (
+  <a class={cls} href={disabled ? undefined : href} aria-disabled={ariaDisabled} aria-label={ariaLabel}>
+    <slot />
+  </a>
+) : (
+  <button class={cls} type="button" disabled={disabled} aria-label={ariaLabel}>
+    <slot />
+  </button>
+)}
