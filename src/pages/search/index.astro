@@ -2,7 +2,10 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Search — NebulaWind">
+<BaseLayout
+  title="Search — NebulaWind"
+  description="Search NebulaWind locally (offline-ready) using Pagefind."
+>
   <main class="min-h-screen">
     <div class="max-w-3xl mx-auto px-5 py-16">
       <div class="flex items-end justify-between gap-4">
@@ -24,7 +27,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
       <div id="nw-results" class="mt-8 space-y-4"></div>
 
-      <!-- Pagefind is generated into /pagefind/ by the build script -->
       <script is:inline src="/pagefind/pagefind.js"></script>
 
       <script is:inline>

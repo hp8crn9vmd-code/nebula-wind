@@ -11,4 +11,13 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// Starlight docs collection (minimal schema; Starlight also supports frontmatter)
+const docs = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+  }).passthrough(),
+});
+
+export const collections = { blog, docs };

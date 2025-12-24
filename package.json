@@ -22,7 +22,8 @@
     "postcss": "^8.4.0",
     "autoprefixer": "^10.4.0",
     "@astrojs/rss": "^4.0.0",
-    "@astrojs/sitemap": "^3.0.0"
+    "@astrojs/sitemap": "^3.0.0",
+    "@astrojs/starlight": "^0.33.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

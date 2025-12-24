@@ -17,7 +17,10 @@ const { post } = Astro.props as { post: BlogEntry };
 const { Content } = await post.render();
 ---
 
-<BaseLayout title={`${post.data.title} — NebulaWind`}>
+<BaseLayout
+  title={`${post.data.title} — NebulaWind`}
+  description={post.data.description}
+>
   <main class="min-h-screen">
     <article class="max-w-3xl mx-auto px-5 py-16">
       <a class="text-sm text-white/70 hover:text-white" href="/blog/">← Back to Blog</a>

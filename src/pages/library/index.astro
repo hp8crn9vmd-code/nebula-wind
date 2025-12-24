@@ -7,7 +7,10 @@ import CTA from "../../components/CTA.astro";
 import FAQ from "../../components/FAQ.astro";
 ---
 
-<BaseLayout title="Component Library — NebulaWind">
+<BaseLayout
+  title="Component Library — NebulaWind"
+  description="NebulaWind component library: clean-room widgets, tokens, and building blocks."
+>
   <main class="min-h-screen">
     <div class="max-w-5xl mx-auto px-5 py-16">
       <div class="flex flex-wrap items-center justify-between gap-4">
@@ -30,7 +33,7 @@ import FAQ from "../../components/FAQ.astro";
         </div>
       </section>
 
-      <CTA title="Want docs next?" subtitle="Next step will add Starlight docs or a docs layer." href="/docs/" />
+      <CTA title="Want docs next?" subtitle="Docs are included via Starlight." href="/docs/" />
 
       <FAQ items={[
         { q: "Is this clean-room?", a: "Yes. No AstroWind code or assets are reused." },
