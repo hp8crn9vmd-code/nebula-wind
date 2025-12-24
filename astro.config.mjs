@@ -18,7 +18,9 @@ export default defineConfig({
     tailwind(),
     sitemap(),
     starlight({
-      title: "NebulaWind Docs",
+      
+
+      disable404Route: true,title: "NebulaWind Docs",
 
       // Disable Starlight's built-in Pagefind indexing/UI (we index once globally in our build script)
       pagefind: false,

@@ -24,3 +24,9 @@ pnpm-debug.log*
 
 # Lighthouse
 .lighthouseci/
+
+# --- local backups / scratch ---
+.backups/
+**/*.bak
+**/*.bak.*
+astro.config.mjs.*.bak*
