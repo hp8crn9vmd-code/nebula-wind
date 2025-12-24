@@ -10,6 +10,9 @@ module.exports = {
         'http://localhost/library/index.html',
       ],
       settings: {
+      throttlingMethod: 'provided',
+      emulatedFormFactor: 'desktop',
+
         chromeFlags: [
           // Keep these for non-wrapper environments too (wrapper is enforced via env in Kaggle)
           '--no-sandbox',
