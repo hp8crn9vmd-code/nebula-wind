@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
-Sitemap: /sitemap-index.xml
+Sitemap: https://hp8crn9vmd-code.github.io/nebula-wind/sitemap.xml

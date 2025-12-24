@@ -1,60 +1,82 @@
 ---
-const {
-  title = "NebulaWind",
-  description = "NebulaWind — clean-room production starter.",
-} = Astro.props;
-
+import ThemeToggle from "../components/ThemeToggle.astro";
+import DirToggle from "../components/DirToggle.astro";
+import "../styles/tokens.css";
 import "../styles/global.css";
 
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+type Props = {
+  title: string;
+  description?: string;
+  lang?: string;
+  dir?: "ltr" | "rtl";
+  noIndex?: boolean;
+};
+
+const {
+  title,
+  description = "NebulaWind — a clean-room, production-ready Astro starter with design tokens, type-safe content collections, Pagefind search, and Starlight docs.",
+  lang = "en",
+  dir = "ltr",
+  noIndex = false,
+} = Astro.props;
+
+// Prefer absolute canonical using `site` (set in astro.config.mjs). Fallback keeps build safe.
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).toString()
+  : Astro.url.pathname;
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr" data-theme="dark">
+<html lang={lang} dir={dir}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-
     <meta name="description" content={description} />
-    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonical} />
 
-      <link rel="alternate" type="application/rss+xml" title="NebulaWind RSS" href="/rss.xml" />
+    {noIndex ? <meta name="robots" content="noindex,nofollow" /> : null}
 
-    {canonical && <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="manifest" href="/site.webmanifest" />
 
-<!-- Icons / PWA -->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="manifest" href="/site.webmanifest" />
-<meta name="theme-color" content="#0b0f19" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
 
+    <link rel="alternate" type="application/rss+xml" title="NebulaWind RSS" href="/rss.xml" />
 
-    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NebulaWind" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:url" content={canonical} />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <script is:inline>
-      (() => {
-        try {
-          const saved = localStorage.getItem('nw-theme');
-          if (saved) document.documentElement.dataset.theme = saved;
-
-          const savedDir = localStorage.getItem('nw-dir');
-          if (savedDir) document.documentElement.dir = savedDir;
-        } catch {
-          // ignore
-        }
-      })();
-    </script>
+    <title>{title}</title>
   </head>
   <body>
-    <slot />
+    <header class="mx-auto max-w-5xl px-4 py-6 flex items-center justify-between gap-4">
+      <a class="font-semibold tracking-tight" href="/" aria-label="NebulaWind Home">NebulaWind</a>
+      <nav class="flex items-center gap-4 text-sm">
+        <a href="/blog/" class="hover:underline">Blog</a>
+        <a href="/library/" class="hover:underline">Library</a>
+        <a href="/search/" class="hover:underline">Search</a>
+        <a href="/docs/" class="hover:underline">Docs</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <DirToggle />
+        <ThemeToggle />
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-4 pb-16">
+      <slot />
+    </main>
+
+    <footer class="mx-auto max-w-5xl px-4 py-10 text-sm opacity-80">
+      <p>© {new Date().getFullYear()} NebulaWind. Inspired by AstroWind.</p>
+    </footer>
   </body>
 </html>

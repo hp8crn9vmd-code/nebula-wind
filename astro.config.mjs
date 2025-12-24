@@ -1,22 +1,31 @@
-import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import sitemap from '@astrojs/sitemap';
-import starlight from '@astrojs/starlight';
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
+import sitemap from "@astrojs/sitemap";
+import starlight from "@astrojs/starlight";
 
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://example.com',
+  // GitHub Pages canonical base (adjust if you later move domains)
+  site: "https://hp8crn9vmd-code.github.io/nebula-wind/",
+
+  output: "static",
+
+  vite: {
+    // Keeps CI output clean from upstream Vite warnings originating in node_modules.
+    logLevel: "error",
+  },
+
   integrations: [
-    tailwind({ applyBaseStyles: false }),
+    tailwind(),
     sitemap(),
     starlight({
-      title: 'NebulaWind Docs',
-      description: 'Documentation for NebulaWind — clean-room production starter.',
+      title: "NebulaWind Docs",
+
+      // Disable Starlight's built-in Pagefind indexing/UI (we index once globally in our build script)
+      pagefind: false,
+
+      // Social config (array syntax)
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/' }
-      ],
-      sidebar: [
-        { label: 'Start Here', items: [{ label: 'Introduction', link: '/docs/' }] },
-        { label: 'Guides', items: [{ label: 'Project Structure', link: '/docs/guides/structure/' }] },
+        { icon: "github", label: "GitHub", href: "https://github.com/hp8crn9vmd-code/nebula-wind" },
       ],
     }),
   ],
