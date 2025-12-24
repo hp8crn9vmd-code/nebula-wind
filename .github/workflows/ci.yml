@@ -23,14 +23,15 @@ jobs:
       - name: Install deps
         run: npm ci
 
-- name: Setup Chrome (for Lighthouse)
-  uses: browser-actions/setup-chrome@v1
+      - name: Setup Chrome (for Lighthouse)
+        uses: browser-actions/setup-chrome@v1
 
-- name: Export Chrome path
-  run: |
-    echo "CHROME_PATH=$(which google-chrome)" >> $GITHUB_ENV
-    echo "LHCI_CHROME_PATH=$(which google-chrome)" >> $GITHUB_ENV
-    echo "LIGHTHOUSE_CHROMIUM_PATH=$(which google-chrome)" >> $GITHUB_ENV
+      - name: Export Chrome path
+        run: |
+          echo "CHROME_PATH=$(which google-chrome)" >> $GITHUB_ENV
+          echo "LHCI_CHROME_PATH=$(which google-chrome)" >> $GITHUB_ENV
+          echo "LIGHTHOUSE_CHROMIUM_PATH=$(which google-chrome)" >> $GITHUB_ENV
+          echo "CI=true" >> $GITHUB_ENV
 
       - name: Run gates
         run: npm run gates
