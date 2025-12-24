@@ -1,0 +1,27 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+type AnyProps = Record<string, unknown>;
+const p = (Astro.props ?? {}) as AnyProps;
+
+const title =
+  typeof p.title === "string" && p.title.trim()
+    ? p.title
+    : "NebulaWind";
+
+const description =
+  typeof p.description === "string" && p.description.trim()
+    ? p.description
+    : "NebulaWind — clean-room Astro starter with design system, content layer, local search, and quality gates.";
+
+const lang =
+  typeof p.lang === "string" && p.lang.trim()
+    ? p.lang
+    : "en";
+
+const noIndex = typeof p.noIndex === "boolean" ? p.noIndex : false;
+---
+
+<BaseLayout {...p} title={title} description={description} lang={lang} noIndex={noIndex}>
+  <slot />
+</BaseLayout>

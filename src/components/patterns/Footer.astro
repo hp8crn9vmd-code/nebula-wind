@@ -1,0 +1,88 @@
+---
+const year = new Date().getFullYear();
+const links = [
+  { href: "/docs/", label: "Docs" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/library/", label: "Library" },
+  { href: "/search/", label: "Search" },
+];
+---
+
+<footer class="footer">
+  <div class="inner">
+    <div class="left">
+      <div class="brand">
+        <span class="mark">NW</span>
+        <div class="meta">
+          <div class="name">NebulaWind</div>
+          <div class="sub">Clean-room starter • Inspired by AstroWind</div>
+        </div>
+      </div>
+      <div class="copy">© {year} NebulaWind</div>
+    </div>
+
+    <nav class="right" aria-label="Footer">
+      <ul class="links">
+        {links.map((l) => (
+          <li><a class="link" href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+.footer{
+  margin-top: var(--space-10, 2.5rem);
+  border-top: 1px solid var(--border-1, rgba(255,255,255,.08));
+  background: var(--surface-1, rgba(10,10,10,.5));
+}
+.inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-7, 1.75rem) var(--space-4, 1rem);
+  display:flex;
+  gap: var(--space-6, 1.5rem);
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.brand{
+  display:flex;
+  gap: var(--space-3, .75rem);
+  align-items:center;
+}
+.mark{
+  width: 34px; height: 34px;
+  border-radius: var(--radius-2, .5rem);
+  display:grid; place-items:center;
+  background: var(--accent, #6aa6ff);
+  color: #0b1020;
+  font-weight: 800;
+}
+.name{ font-weight: 800; color: var(--text-1, #fff); }
+.sub{ font-size: .9rem; color: var(--text-2, rgba(255,255,255,.78)); }
+.copy{ margin-top: .75rem; color: var(--text-2, rgba(255,255,255,.72)); }
+
+.links{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  gap: var(--space-4, 1rem);
+  flex-wrap: wrap;
+}
+.link{
+  color: var(--text-2, rgba(255,255,255,.82));
+  text-decoration:none;
+  padding: .35rem .5rem;
+  border-radius: var(--radius-2, .5rem);
+}
+.link:hover{
+  background: var(--surface-2, rgba(255,255,255,.06));
+  color: var(--text-1, #fff);
+}
+.link:focus-visible{
+  outline: 2px solid var(--focus, #7aa7ff);
+  outline-offset: 2px;
+}
+</style>

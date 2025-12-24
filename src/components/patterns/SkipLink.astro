@@ -1,0 +1,30 @@
+---
+const label = "Skip to content";
+const href = "#content";
+---
+
+<a class="skip-link" href={href}>{label}</a>
+
+<style>
+.skip-link{
+  position:absolute;
+  left:-9999px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
+.skip-link:focus{
+  left: var(--space-4, 1rem);
+  top: var(--space-4, 1rem);
+  width:auto;
+  height:auto;
+  padding: var(--space-2, .5rem) var(--space-3, .75rem);
+  background: var(--surface-1, #111);
+  color: var(--text-1, #fff);
+  border-radius: var(--radius-2, .5rem);
+  z-index: 9999;
+  outline: 2px solid var(--focus, #7aa7ff);
+  outline-offset: 2px;
+}
+</style>

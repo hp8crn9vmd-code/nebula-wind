@@ -25,6 +25,15 @@ const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).toString()
   : Astro.url.pathname;
 import ThemeInit from "../components/ThemeInit.astro";
+
+const __p = (Astro.props ?? {}) as Record<string, unknown>;
+const pageTitle =
+  typeof __p.title === "string" && __p.title.trim() ? __p.title : "NebulaWind";
+const pageDescription =
+  typeof __p.description === "string" && __p.description.trim()
+    ? __p.description
+    : "NebulaWind — clean-room Astro starter with design system, content layer, local search, and quality gates.";
+
 ---
 
 <!doctype html>
@@ -34,7 +43,7 @@ import ThemeInit from "../components/ThemeInit.astro";
     <ThemeInit />
 <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
     <link rel="canonical" href={canonical} />
 
     {noIndex ? <meta name="robots" content="noindex,nofollow" /> : null}
@@ -57,7 +66,7 @@ import ThemeInit from "../components/ThemeInit.astro";
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <title>{title}</title>
+    <title>{pageTitle}</title>
   </head>
   <body>
     <header class="mx-auto max-w-5xl px-4 py-6 flex items-center justify-between gap-4">

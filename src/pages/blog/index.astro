@@ -7,8 +7,10 @@ type BlogEntry = CollectionEntry<'blog'>;
 const posts: BlogEntry[] = (await getCollection('blog'))
   .filter((p: BlogEntry) => !p.data.draft)
   .sort((a: BlogEntry, b: BlogEntry) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+import MainLayout from "../../layouts/MainLayout.astro";;
 ---
 
+<MainLayout title="Blog • NebulaWind">
 <BaseLayout
   title="Blog — NebulaWind"
   description="NebulaWind Blog: clean-room updates, architecture notes, and production-ready patterns."
@@ -55,3 +57,4 @@ const posts: BlogEntry[] = (await getCollection('blog'))
     </div>
   </main>
 </BaseLayout>
+</MainLayout>

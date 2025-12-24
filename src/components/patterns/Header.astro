@@ -1,0 +1,166 @@
+---
+import ThemeToggle from "../ThemeToggle.astro";
+
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/library/", label: "Library" },
+  { href: "/search/", label: "Search" },
+  { href: "/docs/", label: "Docs" },
+];
+---
+
+<header class="header">
+  <div class="inner">
+    <a class="brand" href="/" aria-label="NebulaWind home">
+      <span class="mark">NW</span>
+      <span class="name">NebulaWind</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <ul class="links">
+        {nav.map((i) => (
+          <li><a class="link" href={i.href}>{i.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <ThemeToggle />
+    </div>
+
+    <!-- CSS-only mobile menu -->
+    <input id="mnav" class="mnav-toggle" type="checkbox" aria-hidden="true" />
+    <label class="mnav-btn" for="mnav" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </label>
+
+    <div class="mnav">
+      <nav aria-label="Mobile">
+        <ul class="mlinks">
+          {nav.map((i) => (
+            <li><a class="mlink" href={i.href}>{i.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--surface-1, rgba(10,10,10,.7));
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-1, rgba(255,255,255,.08));
+}
+.inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-4, 1rem);
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: var(--space-3, .75rem);
+}
+.brand{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3, .75rem);
+  text-decoration: none;
+  color: var(--text-1, #fff);
+}
+.mark{
+  width: 34px; height: 34px;
+  border-radius: var(--radius-2, .5rem);
+  display:grid; place-items:center;
+  background: var(--accent, #6aa6ff);
+  color: #0b1020;
+  font-weight: 800;
+}
+.name{
+  font-weight: 750;
+  letter-spacing: .2px;
+}
+.nav{ display: none; }
+.links{
+  display:flex;
+  gap: var(--space-4, 1rem);
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.link{
+  color: var(--text-2, rgba(255,255,255,.82));
+  text-decoration:none;
+  padding: .35rem .5rem;
+  border-radius: var(--radius-2, .5rem);
+}
+.link:hover{
+  background: var(--surface-2, rgba(255,255,255,.06));
+  color: var(--text-1, #fff);
+}
+.link:focus-visible{
+  outline: 2px solid var(--focus, #7aa7ff);
+  outline-offset: 2px;
+}
+.actions{ display:flex; align-items:center; gap: .5rem; }
+
+/* Mobile menu */
+.mnav-toggle{ display:none; }
+.mnav-btn{
+  display:inline-flex;
+  flex-direction:column;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-2, .5rem);
+  border: 1px solid var(--border-1, rgba(255,255,255,.10));
+  background: var(--surface-2, rgba(255,255,255,.04));
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.mnav-btn span{
+  display:block;
+  width: 18px;
+  height: 2px;
+  background: var(--text-1, #fff);
+  border-radius: 999px;
+  opacity: .9;
+}
+.mnav{
+  display:none;
+  grid-column: 1 / -1;
+  padding-top: .5rem;
+}
+.mlinks{
+  list-style:none;
+  margin:0;
+  padding: .25rem 0 0 0;
+  display:grid;
+  gap: .25rem;
+}
+.mlink{
+  display:block;
+  text-decoration:none;
+  color: var(--text-2, rgba(255,255,255,.82));
+  padding: .55rem .6rem;
+  border-radius: var(--radius-2, .5rem);
+  border: 1px solid transparent;
+}
+.mlink:hover{
+  background: var(--surface-2, rgba(255,255,255,.06));
+  border-color: var(--border-1, rgba(255,255,255,.10));
+  color: var(--text-1, #fff);
+}
+#mnav:checked ~ .mnav{ display:block; }
+
+@media (min-width: 900px){
+  .inner{ grid-template-columns: auto 1fr auto; }
+  .nav{ display:block; }
+  .mnav-btn, .mnav, .mnav-toggle{ display:none; }
+}
+</style>

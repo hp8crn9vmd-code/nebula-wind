@@ -3,10 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import { Box, Stack, Heading, Text, Button, Link } from '../components/primitives';
 import { Alert, Badge, Card } from '../components/widgets';
+import MainLayout from "../layouts/MainLayout.astro";;
 ---
 
-
-
+<MainLayout title="NebulaWind">
 <BaseLayout
   title="NebulaWind"
   description="NebulaWind: a clean-room, production-ready starter with type-safe content, docs, local search, and quality gates."
@@ -83,4 +83,4 @@ import { Alert, Badge, Card } from '../components/widgets';
   </Stack>
 </Card>
 <!-- nebula:primitives-demo:end -->
-
+</MainLayout>
