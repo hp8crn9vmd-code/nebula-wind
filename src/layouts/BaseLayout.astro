@@ -21,6 +21,12 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString(
 
     {canonical && <link rel="canonical" href={canonical} />}
 
+<!-- Icons / PWA -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#0b0f19" />
+
+
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
