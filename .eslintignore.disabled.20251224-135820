@@ -1,0 +1,5 @@
+.cache/
+dist/
+.lighthouseci/
+node_modules/
+.astro/

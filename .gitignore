@@ -30,3 +30,8 @@ pnpm-debug.log*
 **/*.bak
 **/*.bak.*
 astro.config.mjs.*.bak*
+
+# Lighthouse CI
+.lighthouseci/
+lighthouse*.report.html
+/tmp/chrome-wrapper-args.log

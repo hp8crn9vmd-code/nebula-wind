@@ -27,3 +27,22 @@ Inspired by AstroWind: https://github.com/arthelokyo/astrowind
 - In Kaggle: LHCI may fail because **Chrome is not installed** in the runtime image.
 - In GitHub Actions: CI installs Chrome and runs Lighthouse CI automatically via `npm run ci:all`.
 
+## Kaggle Lighthouse CI
+
+Kaggle runs as `root`, so Chrome must be launched with `--no-sandbox`.
+This repo includes a small wrapper used by the `lhci:kaggle` script:
+
+- `scripts/chrome-wrapper.sh` ensures `--no-sandbox` and `--disable-dev-shm-usage`
+- Optional debug logging:
+  - `CHROME_WRAPPER_DEBUG=1 npm run lhci:kaggle`
+  - Logs: `/tmp/chrome-wrapper-args.log`
+
+### The three commands (in order)
+
+```bash
+npm run check
+npm run lint
+npm run gates
+```
+
+- `npm run gates` runs: check → lint → build → lhci:kaggle.

@@ -1,0 +1,40 @@
+---
+---
+<script is:inline>
+(() => {
+  const STORAGE_KEY = 'nw-theme';
+  const root = document.documentElement;
+
+  const setTheme = (value) => {
+    const theme = value === 'dark' ? 'dark' : 'light';
+    root.dataset.theme = theme;
+    root.style.colorScheme = theme;
+  };
+
+  const getStoredTheme = () => {
+    try {
+      return localStorage.getItem(STORAGE_KEY);
+    } catch {
+      return null;
+    }
+  };
+
+  const getSystemTheme = () =>
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+  // Initial theme
+  setTheme(getStoredTheme() ?? getSystemTheme());
+
+  // Sync across tabs/windows
+  window.addEventListener('storage', (e) => {
+    if (e.key !== STORAGE_KEY) return;
+    setTheme(e.newValue ?? getSystemTheme());
+  });
+
+  // React to OS theme changes only when user hasn't chosen explicitly
+  const mql = window.matchMedia('(prefers-color-scheme: dark)');
+  mql.addEventListener?.('change', () => {
+    if (getStoredTheme() == null) setTheme(getSystemTheme());
+  });
+})();
+</script>

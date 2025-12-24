@@ -1,8 +1,5 @@
 name: CI
 
-permissions:
-  contents: read
-  statuses: write
 on:
   push:
     branches: [ "main" ]
@@ -10,13 +7,13 @@ on:
 
 jobs:
   quality:
-    env:
-      LHCI_GITHUB_TOKEN: ${{ github.token }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Use Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -25,8 +22,37 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Install Chrome (for Lighthouse CI)
-        uses: browser-actions/setup-chrome@v1
+      - name: Check
+        run: npm run check
 
-      - name: Quality Gates + Build + Lighthouse
-        run: npm run ci:all
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: [ quality ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci
+
+      - name: Build (required for staticDistDir)
+        run: npm run build
+
+      - name: LHCI (autorun)
+        env:
+          # Runner already has Chrome; this is only a hint if needed
+          CHROME_PATH: google-chrome
+        run: npm run lhci:ci

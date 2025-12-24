@@ -13,29 +13,34 @@
     "format:check": "prettier . --check",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lhci:autorun": "lhci autorun --upload.target=temporary-public-storage",
-    "ci:all": "npm run check && npm run lint && npm run build && npm run lhci:autorun"
+    "ci:all": "npm run check && npm run lint && npm run build && npm run lhci:autorun",
+    "lhci:kaggle": "CHROME_WRAPPER_DEBUG=0 CHROME_PATH=./scripts/chrome-wrapper.sh LHCI_CHROME_PATH=./scripts/chrome-wrapper.sh LIGHTHOUSE_CHROMIUM_PATH=./scripts/chrome-wrapper.sh npx lhci autorun --config=./lighthouserc.cjs --upload.target=temporary-public-storage --collect.numberOfRuns=1",
+    "gates": "bash ./scripts/run-gates.sh",
+    "lhci:ci": "npx lhci autorun --config=./lighthouserc.cjs --upload.target=temporary-public-storage --collect.numberOfRuns=1",
+    "ci": "npm run check && npm run lint && npm run build && npm run lhci:ci"
   },
   "dependencies": {
-    "astro": "^5.0.0",
-    "@astrojs/tailwind": "^6.0.0",
-    "tailwindcss": "^3.4.0",
-    "postcss": "^8.4.0",
-    "autoprefixer": "^10.4.0",
     "@astrojs/rss": "^4.0.0",
     "@astrojs/sitemap": "^3.0.0",
-    "@astrojs/starlight": "^0.33.0"
+    "@astrojs/starlight": "^0.33.0",
+    "@astrojs/tailwind": "^6.0.0",
+    "astro": "^5.0.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
+    "@astrojs/check": "^0.9.0",
+    "@eslint/js": "^9.0.0",
+    "@lhci/cli": "^0.14.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-astro": "^1.0.0",
+    "globals": "^15.0.0",
+    "pagefind": "^1.1.0",
     "prettier": "^3.0.0",
     "prettier-plugin-astro": "^0.14.0",
-    "eslint": "^9.0.0",
-    "@eslint/js": "^9.0.0",
-    "eslint-plugin-astro": "^1.0.0",
-    "typescript-eslint": "^8.0.0",
-    "globals": "^15.0.0",
-    "@astrojs/check": "^0.9.0",
-    "pagefind": "^1.1.0",
-    "@lhci/cli": "^0.14.0"
+    "rehype-external-links": "^3.0.0",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.0.0"
   }
 }

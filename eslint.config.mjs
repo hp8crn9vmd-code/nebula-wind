@@ -16,8 +16,7 @@ export default [
     ignores: [
       "dist/**",
       "node_modules/**",
-      ".astro/**"
-    ]
+      ".astro/**", '**/.cache/**', '**/dist/**', '**/.lighthouseci/**', '**/node_modules/**', '**/.astro/**', '**/.git/**']
   },
 
   {

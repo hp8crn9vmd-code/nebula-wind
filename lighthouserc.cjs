@@ -1,30 +1,39 @@
-/** @type {import('@lhci/cli/src/types').LighthouseCiConfiguration} */
 module.exports = {
   ci: {
     collect: {
-      // Use a static server for dist output
-      staticDistDir: "./dist",
-      numberOfRuns: 2,
+      numberOfRuns: 1,
+      staticDistDir: './dist',
       url: [
-        "http://localhost/index.html",
-        "http://localhost/blog/index.html",
-        "http://localhost/search/index.html",
-        "http://localhost/library/index.html"
+        'http://localhost/index.html',
+        'http://localhost/blog/index.html',
+        'http://localhost/search/index.html',
+        'http://localhost/library/index.html',
       ],
       settings: {
-        preset: "desktop"
-      }
+        chromeFlags: [
+          // Keep these for non-wrapper environments too (wrapper is enforced via env in Kaggle)
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--headless=new',
+        ],
+        onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+      },
     },
     assert: {
       assertions: {
-        "categories:performance": ["warn", { "minScore": 0.9 }],
-        "categories:accessibility": ["error", { "minScore": 0.95 }],
-        "categories:best-practices": ["warn", { "minScore": 0.95 }],
-        "categories:seo": ["error", { "minScore": 0.95 }]
-      }
+        // NebulaWind quality bar (tune later if needed)
+        'categories:performance': ['error', { minScore: 0.95 }],
+        'categories:accessibility': ['error', { minScore: 0.95 }],
+        'categories:best-practices': ['error', { minScore: 1.0 }],
+        'categories:seo': ['error', { minScore: 0.95 }],
+
+        // Ensure console is clean
+        'errors-in-console': 'error',
+      },
     },
     upload: {
-      target: "temporary-public-storage"
-    }
-  }
+      target: 'temporary-public-storage',
+    },
+  },
 };

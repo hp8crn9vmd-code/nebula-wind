@@ -2,7 +2,6 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
-
 export default defineConfig({
   // GitHub Pages canonical base (adjust if you later move domains)
   site: "https://hp8crn9vmd-code.github.io/nebula-wind/",
