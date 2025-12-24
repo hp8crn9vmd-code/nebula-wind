@@ -1,5 +1,11 @@
 ---
-const { title = "Ready to build?", subtitle = "NebulaWind is clean-room and production-first.", href = "/docs/" } = Astro.props;
+const {
+  title = "Ready to build?",
+  subtitle = "NebulaWind is clean-room and production-first.",
+  href = "/docs/",
+  linkText = "Read the docs →",
+  ariaLabel = "Read NebulaWind documentation",
+} = Astro.props;
 ---
 
 <section class="mt-10 p-6 rounded-[var(--nw-radius-md)] border border-white/10 bg-white/5">
@@ -8,9 +14,13 @@ const { title = "Ready to build?", subtitle = "NebulaWind is clean-room and prod
       <h2 class="text-xl font-semibold">{title}</h2>
       <p class="mt-2 text-white/75">{subtitle}</p>
     </div>
-    <a class="inline-flex justify-center px-4 py-2 rounded-[var(--nw-radius-md)] border border-white/10 bg-white/10 hover:bg-white/15 transition"
-       href={href}>
-      Explore →
+
+    <a
+      class="inline-flex justify-center px-4 py-2 rounded-[var(--nw-radius-md)] border border-white/10 bg-white/10 hover:bg-white/15 transition"
+      href={href}
+      aria-label={ariaLabel}
+    >
+      {linkText}
     </a>
   </div>
 </section>
