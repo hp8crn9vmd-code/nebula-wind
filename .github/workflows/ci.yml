@@ -2,61 +2,38 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
 
-permissions:
-  contents: read
-
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  test:
+  ci:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    env:
+      CI: "1"
+      CHROME_WRAPPER_DEBUG: "0"
+      CHROME_PATH: ./scripts/chrome-wrapper.sh
+      LHCI_CHROME_PATH: ./scripts/chrome-wrapper.sh
+      LIGHTHOUSE_CHROMIUM_PATH: ./scripts/chrome-wrapper.sh
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: "20"
+          cache: "npm"
 
       - name: Install deps
         run: npm ci
 
-      # Playwright browsers cache
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Ensure wrapper executable
+        run: |
+          chmod +x ./scripts/chrome-wrapper.sh || true
+          chmod +x ./scripts/run-gates.sh || true
 
-      - name: Install Playwright Chromium (with deps)
+      # Playwright is used by your e2e tests, and we rely on its chromium path in CI often.
+      - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run full CI (gates + e2e + lhci:ci)
+      - name: Run CI
         run: npm run ci
-
-      # Always upload LHCI reports even if CI fails
-      - name: Upload Lighthouse CI reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouseci
-          path: .lighthouseci
-          if-no-files-found: warn
-
-      # Optional: upload Playwright report if you use it
-      - name: Upload Playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report
-          if-no-files-found: ignore
