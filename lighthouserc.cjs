@@ -13,7 +13,7 @@ module.exports = {
       throttlingMethod: 'provided',
       emulatedFormFactor: 'desktop',
 
-        chromeFlags: ['--no-sandbox','--disable-dev-shm-usage','--headless=new'],
+        chromeFlags: ['--no-sandbox','--disable-setuid-sandbox','--disable-dev-shm-usage'],
         onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
       },
     },
