@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "astro dev --host 0.0.0.0 --port 8000",
+    "dev": "astro dev",
     "build": "astro build && pagefind --site dist --silent",
-    "preview": "astro preview --host 0.0.0.0 --port 8000",
+    "preview": "astro preview",
     "check": "astro check",
     "lint": "eslint .",
     "format": "prettier . --write",
@@ -14,10 +14,16 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lhci:autorun": "lhci autorun --upload.target=temporary-public-storage",
     "ci:all": "npm run check && npm run lint && npm run build && npm run lhci:autorun",
-    "lhci:kaggle": "CHROME_WRAPPER_DEBUG=0 CHROME_PATH=./scripts/chrome-wrapper.sh LHCI_CHROME_PATH=./scripts/chrome-wrapper.sh LIGHTHOUSE_CHROMIUM_PATH=./scripts/chrome-wrapper.sh npx lhci autorun --config=./lighthouserc.cjs --upload.target=temporary-public-storage --collect.numberOfRuns=1",
+    "lhci:kaggle": "CHROME_WRAPPER_DEBUG=0 CHROME_PATH=./scripts/chrome-wrapper.sh LHCI_CHROME_PATH=./scripts/chrome-wrapper.sh LIGHTHOUSE_CHROMIUM_PATH=./scripts/chrome-wrapper.sh npx lhci autorun --config=./lighthouserc.cjs --collect.numberOfRuns=1",
     "gates": "bash ./scripts/run-gates.sh",
-    "lhci:ci": "npx lhci autorun --config=./lighthouserc.cjs --upload.target=temporary-public-storage --collect.numberOfRuns=1 --chromeFlags=\"--no-sandbox --disable-dev-shm-usage --headless=new --disable-gpu\"",
-    "ci": "npm run check && npm run lint && npm run build && npm run lhci:ci"
+    "lhci:ci": "CHROME_WRAPPER_DEBUG=0 CHROME_PATH=./scripts/chrome-wrapper.sh LHCI_CHROME_PATH=./scripts/chrome-wrapper.sh LIGHTHOUSE_CHROMIUM_PATH=./scripts/chrome-wrapper.sh npx lhci autorun --config=./lighthouserc.cjs --collect.numberOfRuns=1",
+    "ci": "npm run gates && npm run e2e && npm run lhci:ci",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:report": "playwright show-report",
+    "lhci:public": "CHROME_WRAPPER_DEBUG=0 CHROME_PATH=./scripts/chrome-wrapper.sh LHCI_CHROME_PATH=./scripts/chrome-wrapper.sh LIGHTHOUSE_CHROMIUM_PATH=./scripts/chrome-wrapper.sh npx lhci autorun --config=./lighthouserc.cjs --upload.target=temporary-public-storage --collect.numberOfRuns=1"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.0",
@@ -31,16 +37,22 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
+    "@axe-core/playwright": "^4.11.0",
     "@eslint/js": "^9.0.0",
     "@lhci/cli": "^0.14.0",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "axe-core": "^4.11.0",
     "eslint": "^9.0.0",
     "eslint-plugin-astro": "^1.0.0",
     "globals": "^15.0.0",
     "pagefind": "^1.1.0",
+    "playwright": "^1.57.0",
     "prettier": "^3.0.0",
     "prettier-plugin-astro": "^0.14.0",
     "rehype-external-links": "^3.0.0",
     "typescript": "^5.0.0",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^4.0.16"
   }
 }

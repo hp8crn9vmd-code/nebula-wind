@@ -13,13 +13,7 @@ module.exports = {
       throttlingMethod: 'provided',
       emulatedFormFactor: 'desktop',
 
-        chromeFlags: [
-          // Keep these for non-wrapper environments too (wrapper is enforced via env in Kaggle)
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--headless=new',
-        ],
+        chromeFlags: ['--no-sandbox','--disable-dev-shm-usage','--headless=new'],
         onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
       },
     },
@@ -36,7 +30,9 @@ module.exports = {
       },
     },
     upload: {
-      target: 'temporary-public-storage',
-    },
+      target: 'filesystem',
+    
+    outputDir: '.lighthouseci'
+  },
   },
 };

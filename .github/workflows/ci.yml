@@ -2,13 +2,20 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  gates:
+  test:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -23,14 +30,33 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Setup Chrome (for Lighthouse)
-        uses: browser-actions/setup-chrome@v1
+      # Playwright browsers cache
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-      - name: Export Chrome path
-        run: |
-          echo "CHROME_PATH=$(which google-chrome)" >> $GITHUB_ENV
-          echo "LHCI_CHROME_PATH=$(which google-chrome)" >> $GITHUB_ENV
-          echo "LIGHTHOUSE_CHROMIUM_PATH=$(which google-chrome)" >> $GITHUB_ENV
+      - name: Install Playwright Chromium (with deps)
+        run: npx playwright install --with-deps chromium
 
-      - name: Run gates
-        run: npm run gates
+      - name: Run full CI (gates + e2e + lhci:ci)
+        run: npm run ci
+
+      # Always upload LHCI reports even if CI fails
+      - name: Upload Lighthouse CI reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouseci
+          path: .lighthouseci
+          if-no-files-found: warn
+
+      # Optional: upload Playwright report if you use it
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          if-no-files-found: ignore
