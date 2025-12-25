@@ -1,5 +1,7 @@
 # NebulaWind
 
+[![CI](https://github.com/hp8crn9vmd-code/nebula-wind/actions/workflows/ci.yml/badge.svg)](https://github.com/hp8crn9vmd-code/nebula-wind/actions/workflows/ci.yml)
+
 A clean-room, production-ready starter built from scratch.
 
 > Inspired by AstroWind (attribution-only; no code/assets reused).
@@ -46,3 +48,7 @@ npm run gates
 ```
 
 - `npm run gates` runs: check → lint → build → lhci:kaggle.
+
+## CI Notes (LHCI)
+- Lighthouse CI uses `scripts/chrome-wrapper.sh` via env vars (`CHROME_PATH`, `LHCI_CHROME_PATH`, `LIGHTHOUSE_CHROMIUM_PATH`) to ensure `--no-sandbox` is applied correctly on CI runners.
+- The wrapper splits **only** comma-joined flags (`,--`) to avoid corrupting args like `--disable-features=Translate,...`.
