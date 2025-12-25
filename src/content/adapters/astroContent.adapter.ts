@@ -1,99 +1,141 @@
-/**
- * Astro Content Collections adapter.
- *
- * Important:
- * - TypeScript is strict with exactOptionalPropertyTypes, so we MUST omit keys when undefined.
- */
+import type { ContentAdapter } from "./adapter";
+import type { AdapterHealth, ContentItem, ContentKind, ContentMeta } from "./types";
 
-import type { ContentAdapter } from './adapter';
-import type { AdapterHealth, ContentItem, ContentKind, ContentMeta } from './types';
+type UnknownRecord = Record<string, unknown>;
 
-type CollectionName = string;
+function isRecord(v: unknown): v is UnknownRecord {
+  return typeof v === "object" && v !== null && !Array.isArray(v);
+}
 
-const DEFAULT_COLLECTIONS: Record<ContentKind, CollectionName> = {
-  article: 'blog',
-  page: 'pages',
-  doc: 'docs',
-};
+function isFunction(v: unknown): v is (...args: unknown[]) => unknown {
+  return typeof v === "function";
+}
 
-function collectionFor(kind: ContentKind): CollectionName {
-  const envKey =
-    kind === 'article'
-      ? 'NBW_COLLECTION_ARTICLE'
-      : kind === 'page'
-        ? 'NBW_COLLECTION_PAGE'
-        : 'NBW_COLLECTION_DOC';
+function asBoolean(v: unknown): boolean | undefined {
+  return typeof v === "boolean" ? v : undefined;
+}
 
-  const v = (import.meta as any).env?.[envKey] ?? (process as any).env?.[envKey];
-  return (typeof v === 'string' && v.trim()) ? v.trim() : DEFAULT_COLLECTIONS[kind];
+function asNumber(v: unknown): number | undefined {
+  return typeof v === "number" && Number.isFinite(v) ? v : undefined;
+}
+
+function asStringArray(v: unknown): string[] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out = v.filter((x): x is string => typeof x === "string");
+  return out.length ? out : undefined;
 }
 
 function isoOrUndefined(v: unknown): string | undefined {
-  if (!v) return undefined;
-  const d = new Date(v as any);
-  return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
+  if (v instanceof Date) {
+    const t = v.getTime();
+    return Number.isFinite(t) ? v.toISOString() : undefined;
+  }
+  if (typeof v === "string" || typeof v === "number") {
+    const d = new Date(v);
+    const t = d.getTime();
+    return Number.isFinite(t) ? d.toISOString() : undefined;
+  }
+  return undefined;
 }
 
-function buildMeta(data: any): ContentMeta {
-  const date = isoOrUndefined(data?.date);
-  const updated = isoOrUndefined(data?.updated);
+function buildMeta(dataLike: unknown): ContentMeta {
+  const data: UnknownRecord = isRecord(dataLike) ? dataLike : {};
 
-  const tags = Array.isArray(data?.tags) ? data.tags : undefined;
-  const readingTime = typeof data?.readingTime === 'number' ? data.readingTime : undefined;
-  const draft = typeof data?.draft === 'boolean' ? data.draft : undefined;
+  const date = isoOrUndefined(data["date"]);
+  const updated = isoOrUndefined(data["updated"]);
+  const tags = asStringArray(data["tags"]);
+  const readingTime = asNumber(data["readingTime"]);
+  const draft = asBoolean(data["draft"]);
 
   return {
-    ...(typeof data?.title === 'string' ? { title: data.title } : {}),
-    ...(typeof data?.description === 'string' ? { description: data.description } : {}),
+    ...(typeof data["title"] === "string" ? { title: data["title"] } : {}),
+    ...(typeof data["description"] === "string" ? { description: data["description"] } : {}),
     ...(date ? { date } : {}),
     ...(updated ? { updated } : {}),
     ...(tags ? { tags } : {}),
-    ...(typeof readingTime === 'number' ? { readingTime } : {}),
-    ...(typeof draft === 'boolean' ? { draft } : {}),
+    ...(draft !== undefined ? { draft } : {}),
+    ...(readingTime !== undefined ? { readingTime } : {}),
   };
 }
 
-export class AstroContentAdapter implements ContentAdapter {
-  readonly name = 'astro:content';
+function asContentItem(kind: ContentKind, entry: unknown, fallbackSlug?: string): ContentItem {
+  const rec: UnknownRecord = isRecord(entry) ? entry : {};
+  const slug = typeof rec["slug"] === "string" ? rec["slug"] : (fallbackSlug ?? "");
+  const body = typeof rec["body"] === "string" ? rec["body"] : "";
+  const meta = buildMeta(rec["data"]);
+  const raw = rec["data"]; // نحفظ raw frontmatter/fields (unknown)
+
+  return {
+    kind,
+    slug: String(slug),
+    meta,
+    body,
+    ...(raw !== undefined ? { raw } : {}),
+  };
+}
+
+async function loadAstroContentModule(): Promise<unknown> {
+  // virtual module provided by Astro
+  return import("astro:content");
+}
+
+/**
+ * Astro Content Adapter
+ * - currently maps ContentKind.article -> Astro "blog" collection
+ * - other kinds are safe no-op until we add collections/docs later
+ */
+export const astroContentAdapter: ContentAdapter = {
+  name: "astro:content",
 
   async health(): Promise<AdapterHealth> {
-    return { name: this.name, ok: true };
-  }
+    try {
+      const mod = await loadAstroContentModule();
+      const ok = isRecord(mod) && (isFunction(mod["getCollection"]) || isFunction(mod["getEntry"]));
+      return {
+        name: "astro:content",
+        ok,
+        details: ok ? "astro:content module available" : "astro:content missing getCollection/getEntry",
+      };
+    } catch (e: unknown) {
+      return {
+        name: "astro:content",
+        ok: false,
+        details: e instanceof Error ? e.message : "unknown error",
+      };
+    }
+  },
 
   async list(kind: ContentKind): Promise<ContentItem[]> {
-    const mod = await import('astro:content');
-    const getCollection = (mod as any).getCollection as (name: string) => Promise<any[]>;
-    const collection = collectionFor(kind);
+    // Only 'article' is implemented for now
+    if (kind !== "article") return [];
 
-    const entries = await getCollection(collection);
+    const mod = await loadAstroContentModule();
+    const modRec: UnknownRecord = isRecord(mod) ? mod : {};
 
-    return entries.map((e: any) => ({
-      kind,
-      slug: String(e?.slug ?? ''),
-      meta: buildMeta(e?.data),
-      body: typeof e?.body === 'string' ? e.body : '',
-      raw: e,
-    }));
-  }
+    const fn = modRec["getCollection"];
+    if (!isFunction(fn)) return [];
+
+    const getCollection = fn as (name: string) => Promise<unknown[]>;
+    const entries = await getCollection("blog");
+
+    return entries
+      .map((e) => asContentItem(kind, e))
+      .filter((x) => x.slug.length > 0);
+  },
 
   async get(kind: ContentKind, slug: string): Promise<ContentItem | null> {
-    const mod = await import('astro:content');
-    const getEntry = (mod as any).getEntry as (name: string, slug: string) => Promise<any>;
-    const collection = collectionFor(kind);
+    if (kind !== "article") return null;
 
-    try {
-      const e = await getEntry(collection, slug);
-      if (!e) return null;
+    const mod = await loadAstroContentModule();
+    const modRec: UnknownRecord = isRecord(mod) ? mod : {};
 
-      return {
-        kind,
-        slug: String(e?.slug ?? slug),
-        meta: buildMeta(e?.data),
-        body: typeof e?.body === 'string' ? e.body : '',
-        raw: e,
-      };
-    } catch {
-      return null;
-    }
-  }
-}
+    const fn = modRec["getEntry"];
+    if (!isFunction(fn)) return null;
+
+    const getEntry = fn as (name: string, slug: string) => Promise<unknown>;
+    const entry = await getEntry("blog", slug);
+
+    const item = asContentItem(kind, entry, slug);
+    return item.slug ? item : null;
+  },
+};

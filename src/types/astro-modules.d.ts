@@ -1,4 +1,4 @@
 declare module '*.astro' {
-  const Component: any;
+  const Component: unknown;
   export default Component;
 }
