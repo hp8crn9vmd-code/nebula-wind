@@ -1,9 +1,11 @@
 # Code of Conduct
 
-We are committed to providing a friendly, safe, and welcoming environment for everyone.
+We are committed to a respectful, harassment-free experience.
 
-- Be respectful and constructive.
-- No harassment or discrimination.
-- Assume good intent.
+## Expected Behavior
+- Be respectful
+- Be constructive
+- Be inclusive
 
-Project maintainers may remove, edit, or reject contributions that violate this code.
+## Enforcement
+Violations may result in removal from the project.

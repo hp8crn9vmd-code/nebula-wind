@@ -1,16 +1,26 @@
-# Contributing
+# Contributing to NebulaWind
 
-Thanks for contributing to NebulaWind.
+Thank you for contributing! 🚀
 
 ## Development
-- Install: `npm ci`
-- Dev: `npm run dev`
-- Quality gates:
-  - `npm run check`
-  - `npm run lint`
-  - `npm run build`
+- Node.js (LTS)
+- npm
 
-## Guidelines
-- Keep code clean-room (no copying from external templates/repositories).
-- Prefer type-safe patterns.
-- Write minimal tests when adding logic.
+Run locally:
+
+    npm install
+    npm run ci
+
+## Quality Gates
+- astro check
+- eslint
+- build
+- playwright e2e
+- lighthouse CI
+
+## Pull Requests
+- Keep changes focused
+- Ensure CI is green
+- Follow existing code style
+
+By contributing, you agree your work is licensed under MIT.
