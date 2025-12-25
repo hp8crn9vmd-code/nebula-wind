@@ -35,3 +35,7 @@ astro.config.mjs.*.bak*
 .lighthouseci/
 lighthouse*.report.html
 /tmp/chrome-wrapper-args.log
+.env.secrets.sh
+.kaggle_backups/
+playwright-report/
+test-results/

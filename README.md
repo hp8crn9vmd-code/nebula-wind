@@ -52,3 +52,26 @@ npm run gates
 ## CI Notes (LHCI)
 - Lighthouse CI uses `scripts/chrome-wrapper.sh` via env vars (`CHROME_PATH`, `LHCI_CHROME_PATH`, `LIGHTHOUSE_CHROMIUM_PATH`) to ensure `--no-sandbox` is applied correctly on CI runners.
 - The wrapper splits **only** comma-joined flags (`,--`) to avoid corrupting args like `--disable-features=Translate,...`.
+
+## Run locally
+
+```bash
+npm ci
+npm run dev
+```
+
+### Useful scripts
+
+```bash
+npm run check
+npm run lint
+npm run build
+npm run preview
+npm run ci
+```
+
+## CI notes
+
+- Lighthouse CI runs with a Chrome wrapper to avoid sandbox regressions in containers.
+- In GitHub Actions, the workflow sets: `CHROME_PATH`, `LHCI_CHROME_PATH`, and `LIGHTHOUSE_CHROMIUM_PATH`
+  to `./scripts/chrome-wrapper.sh`.
