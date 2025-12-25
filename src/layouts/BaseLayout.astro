@@ -1,11 +1,12 @@
----
-import ThemeToggle from "../components/ThemeToggle.astro";
+---import ThemeToggle from "../components/ThemeToggle.astro";
 import DirToggle from "../components/DirToggle.astro";
 import "../styles/tokens.css";
 import "../styles/global.css";
 
 type Props = {
-  title: string;
+  
+  seo?: SeoInput;
+title: string;
   description?: string;
   lang?: string;
   dir?: "ltr" | "rtl";
@@ -33,14 +34,29 @@ const pageDescription =
   typeof __p.description === "string" && __p.description.trim()
     ? __p.description
     : "NebulaWind — clean-room Astro starter with design system, content layer, local search, and quality gates.";
-
+import { buildSeo, type SeoInput } from '../utils/seo';
+const seo = buildSeo((Astro.props as Props).seo);
 ---
 
 <!doctype html>
 <html lang={lang} dir={dir} data-theme="light">
   <head>
     
-    <ThemeInit />
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{seo.title}</title>
+    <meta name="description" content={seo.description} />
+
+    {seo.canonical && (
+      <link rel="canonical" href={seo.canonical} />
+    )}
+
+    {seo.noindex && (
+      <meta name="robots" content="noindex,nofollow" />
+    )}
+<ThemeInit />
 <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={pageDescription} />
@@ -103,7 +119,9 @@ const pageDescription =
 </script>
 </head>
   <body>
-    <header class="mx-auto max-w-5xl px-4 py-6 flex items-center justify-between gap-4">
+        <a href="#main" class="skip-link">Skip to content</a>
+
+<header class="mx-auto max-w-5xl px-4 py-6 flex items-center justify-between gap-4">
       <a class="font-semibold tracking-tight" href="/" aria-label="NebulaWind Home">NebulaWind</a>
       <nav class="flex items-center gap-4 text-sm">
         <a href="/blog/" class="hover:underline">Blog</a>
@@ -118,7 +136,7 @@ const pageDescription =
       <div class="nw-theme-slot"><ThemeToggle label="Theme" /></div>
 </header>
 
-    <main class="mx-auto max-w-5xl px-4 pb-16">
+    <main id="main" class="mx-auto max-w-5xl px-4 pb-16">
       <slot />
     </main>
 
